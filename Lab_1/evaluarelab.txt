@@ -1,0 +1,8 @@
+ - individual homework (weekly)
+    - 2 weeks for every homework
+    - based on this max mark is 5
+ 
+ - bonus problems from 5 to 10 (made in lab)
+ - max 2.5 additional points from discussions
+ - you must know what you coded for a grade better than 5
+ - this is 33% of the final grade
