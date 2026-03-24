@@ -10,7 +10,7 @@ public class P1 {
         }
     }
     private static Scanner dis;
-    private static String[] Months = {"January", "February", "March", "April","May","June", "July",
+    private static final String[] Months = {"January", "February", "March", "April","May","June", "July",
                         "August", "September", "October", "November", "December"};
 
     public static void main(String[] args){
