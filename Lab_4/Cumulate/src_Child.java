@@ -1,0 +1,158 @@
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+public class Child{
+    private final String name;
+    Date dateOfBirth;
+
+    public Child(String name, Date date){
+        this.name=name;
+        this.dateOfBirth=date;
+    }
+
+    public void sayHello(){
+        System.out.println("Hello my name is: "+ this.name);
+    }
+
+    public void sayGoodbye(){
+        System.out.println("Goodbye!");
+    }
+
+    public void ageCalc(){
+        int year = this.dateOfBirth.getYear();
+        int month = this.dateOfBirth.getMonth();
+        int day = this.dateOfBirth.getDay();
+        LocalDate date = LocalDate.of(year,month,day);
+        LocalDate today = LocalDate.now();
+
+        Period age = Period.between(date, today);
+
+        System.out.println("I am "+age.getYears()+" years old.");
+    }
+
+    public void addNumbers(int x, int y){
+        System.out.println("The sum of "+x+" and "+y+" is: "+(x+y));
+    }
+    
+    public void alphabet(){
+        System.out.print("Direct order alphabet: ");
+        for(int i=97;i<123;i++){
+            System.out.print((char)i);
+            System.out.print(" ");
+        }
+        System.out.println();
+        System.out.print("Reverse order alphabet: ");
+        for(int i=122;i>96;i--){
+            System.out.print((char)i);
+            System.out.print(" ");
+        }
+    }
+
+    public void chessBoard(int x, int y){
+        for(int i = 0; i < x; i++){
+            for(int j = 0; j < y; j++){
+                System.out.print((i + j) % 2 + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void XOGame(int rows, int cols){
+
+        char[][] board = new char[rows][cols];
+        List<int[]> available = new ArrayList<>();
+        Random rand = new Random();
+
+        // Initialize board and list of available positions
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++) {
+                board[i][j] = '*';
+                available.add(new int[]{i, j});
+            }
+
+        char current = 'X';
+        boolean gameEnd = false;
+        int move = 0;
+
+        while (!gameEnd && !available.isEmpty()) {
+            // Pick a random available spot
+            int idx = rand.nextInt(available.size());
+            int[] pos = available.remove(idx);
+            board[pos[0]][pos[1]] = current;
+
+            System.out.println("Move #" + (++move) + ": Player " + current);
+            printBoard(board);
+
+            if (isWin(board, current, pos[0], pos[1])) {
+                System.out.println("Player " + current + " wins!");
+                gameEnd = true;
+            } else if (available.isEmpty()) {
+                System.out.println("It's a draw!");
+                gameEnd = true;
+            }
+
+            // Alternate
+            current = (current == 'X') ? 'O' : 'X';
+        }
+    }
+
+    // Print the board
+    static void printBoard(char[][] board) {
+        for (char[] row : board) {
+            for (char cell : row)
+                System.out.print(cell + " ");
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    // Check if placing at (row,col) caused a win for 'player'
+    static boolean isWin(char[][] board, char player, int row, int col) {
+        int rows = board.length;
+        int cols = board[0].length;
+        boolean win;
+
+        // Check row
+        win = true;
+        for (int j = 0; j < cols; j++)
+            if (board[row][j] != player) {
+                win = false;
+                break;
+            }
+        if (win) return true;
+
+        // Check column
+        win = true;
+        for (int i = 0; i < rows; i++)
+            if (board[i][col] != player) {
+                win = false;
+                break;
+            }
+        if (win) return true;
+
+        // Check main diagonal (if square and on diagonal)
+        if (rows == cols && row == col) {
+            win = true;
+            for (int i = 0; i < rows; i++)
+                if (board[i][i] != player) {
+                    win = false;
+                    break;
+                }
+            if (win) return true;
+        }
+        // Check anti-diagonal (if square and on anti-diagonal)
+        if (rows == cols && row + col == rows - 1) {
+            win = true;
+            for (int i = 0; i < rows; i++)
+                if (board[i][cols - 1 - i] != player) {
+                    win = false;
+                    break;
+                }
+            if (win) return true;
+        }
+        return false;
+    }
+
+}
